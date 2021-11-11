@@ -11,6 +11,8 @@
 #
 class Artwork < ApplicationRecord
     validates :title, :image_url, presence: true
+    validates :artist_id, uniqueness: { scope: :title,
+        message: 'should not reuse titles' }
 
     belongs_to :artist,
         primary_key: :id, 
@@ -20,7 +22,8 @@ class Artwork < ApplicationRecord
     has_many :shares,
         primary_key: :id,
         foreign_key: :artwork_id,
-        class_name: :ArtworkShare
+        class_name: :ArtworkShare,
+        dependent: :destroy
 
     has_many :shared_viewers,
         through: :shares,

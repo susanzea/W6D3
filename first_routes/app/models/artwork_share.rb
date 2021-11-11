@@ -7,6 +7,9 @@
 #  viewer_id  :integer          not null
 #
 class ArtworkShare < ApplicationRecord
+    validates :artwork_id, uniqueness: { scope: :viewer_id,
+        message: 'You already shared this with them!' }
+
 
     belongs_to :artwork,
         primary_key: :id,
